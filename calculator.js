@@ -1,3 +1,5 @@
+console.log(`list of function`)
+
 //created a function for each maths operation
 function exponential(num1, num2) {
   return num1 ** num2;
