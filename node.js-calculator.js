@@ -7,6 +7,8 @@ function multiplication(num1, num2) { return num1 * num2; }
 function addition(num1, num2) { return num1 + num2; }
 function subtraction(num1, num2) { return num1 - num2; }
 
+
+
 // start chat with user
 const rl = readline.createInterface({
     input: process.stdin,
@@ -19,6 +21,11 @@ rl.question('Enter a calculation with values seperated by space(e.g. 2 + 3 * 2 =
     let converted = value.map((item, index) => {
         return index % 2 === 0 ? Number(item) : item; // turn every 1st, 3rd, 5th, etc. into numbers
     });
+
+    //this function replaces the operand and the operator with their final result
+    function replace (numAndOperator,replacementIndex,deleteCount, replacement) {
+        numAndOperator.splice(replacementIndex, deleteCount, replacement);
+    }
 
     // main calculator function
     function calculator(numAndOperator) {
@@ -36,36 +43,41 @@ rl.question('Enter a calculation with values seperated by space(e.g. 2 + 3 * 2 =
                     numAndOperator[numAndOperator.indexOf("^") - 1],
                     numAndOperator[numAndOperator.indexOf("^") + 1]
                 );
-                let i = numAndOperator.indexOf("^") - 1;
-                numAndOperator.splice(i, 3, result);
+                let replacementIndex = numAndOperator.indexOf("^") - 1;
+                replace(numAndOperator,replacementIndex, 3, result)
+
             } else if (isThereDivision) {
                 let result = division(
                     numAndOperator[numAndOperator.indexOf("/") - 1],
                     numAndOperator[numAndOperator.indexOf("/") + 1]
                 );
-                let i = numAndOperator.indexOf("/") - 1;
-                numAndOperator.splice(i, 3, result);
+                let replacementIndex = numAndOperator.indexOf("/") - 1;
+                replace(numAndOperator,replacementIndex, 3, result)
+
             } else if (isThereMultiplication) {
                 let result = multiplication(
                     numAndOperator[numAndOperator.indexOf("*") - 1],
                     numAndOperator[numAndOperator.indexOf("*") + 1]
                 );
-                let i = numAndOperator.indexOf("*") - 1;
-                numAndOperator.splice(i, 3, result);
+                let replacementIndex = numAndOperator.indexOf("*") - 1;
+                replace(numAndOperator,replacementIndex, 3, result)
+
             } else if (isThereAddition) {
                 let result = addition(
                     numAndOperator[numAndOperator.indexOf("+") - 1],
                     numAndOperator[numAndOperator.indexOf("+") + 1]
                 );
-                let i = numAndOperator.indexOf("+") - 1;
-                numAndOperator.splice(i, 3, result);
+                let replacementIndex = numAndOperator.indexOf("+") - 1;
+                replace(numAndOperator,replacementIndex, 3, result)
+
             } else if (isThereSubtraction) {
                 let result = subtraction(
                     numAndOperator[numAndOperator.indexOf("-") - 1],
                     numAndOperator[numAndOperator.indexOf("-") + 1]
                 );
-                let i = numAndOperator.indexOf("-") - 1;
-                numAndOperator.splice(i, 3, result);
+                let replacementIndex = numAndOperator.indexOf("-") - 1;
+                replace(numAndOperator,replacementIndex, 3, result)
+
             } else {
                 isRunning = false; // no more operators → done!
                 numAndOperator.pop(); // remove "="
